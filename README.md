@@ -1,3 +1,13 @@
+# YOLO-v4
+
+## About Repository
+
+🔥 This is the repository for YOLO-v4 code review.
+
+To see my review comments, you need to add the ***Better Comments*** extension in VS Code.
+
+The README for the original repository is below:
+
 # Pytorch-YOLOv4
 
 ![](https://img.shields.io/static/v1?label=python&message=3.6|3.7&color=blue)
