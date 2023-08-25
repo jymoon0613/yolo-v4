@@ -291,7 +291,6 @@ def collate(batch):
 def train(model, device, config, epochs=5, batch_size=1, save_cp=True, log_step=20, img_scale=0.5):
 
     # TODO: 리뷰 시작
-    # ! dataset.Yolo_dataset 참고
     train_dataset = Yolo_dataset(config.train_label, config, train=True)
     val_dataset = Yolo_dataset(config.val_label, config, train=False)
 
@@ -378,8 +377,16 @@ def train(model, device, config, epochs=5, batch_size=1, save_cp=True, log_step=
 
                 images = images.to(device=device, dtype=torch.float32)
                 bboxes = bboxes.to(device=device)
-
+                
+                # ! Model output 계산
+                # ! models.Yolov4 참고
+                # ! SPP, PAN 구조 확인
                 bboxes_pred = model(images)
+                # ! bboxes_pred -> 3가지 scale의 refined feature maps에서의 예측 tensors
+                # ! bboxes_pred[0] = (B, 75, 76, 76)
+                # ! bboxes_pred[1] = (B, 75, 38, 38)
+                # ! bboxes_pred[2] = (B, 75, 19, 19)
+
                 loss, loss_xy, loss_wh, loss_obj, loss_cls, loss_l2 = criterion(bboxes_pred, bboxes)
                 # loss = loss / config.subdivisions
                 loss.backward()
